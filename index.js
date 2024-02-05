@@ -1,129 +1,37 @@
-const people = [
-	{
-		name: "Ricsi",
-		age: 29,
-		latestPurchases: [
-			{
-				item: "shoe",
-				price: 2999,
-			},
-			{
-				item: "computer",
-				price: 199999
-			},
-			{
-				item: "beer",
-				price: 349
-			}
-		] 
-	},
-	{
-		name: "Jakab",
-		age: 14,
-		latestPurchases: [
-			{
-				item: "book",
-				price: 1999
-			}, 
-			{
-				item: "ticket",
-				price: 999
-			}
-		]
-	},
-	{
-		name: "Kálmán",
-		age: 22,
-		latestPurchases: [
-			{
-				item: "computer",
-				price: 250000
-			},
-			{
-				item: "computer",
-				price: 390000
-			}
-		]
+class Game {
+	constructor (name, playtime, hasFinishined) {
+		this.name = name
+		this.playtime = playtime
+		this.hasFinishined = hasFinishined
 	}
-]
 
-const newItem = {
-	item: "beer",
-	price: 179
+	getTotal() {
+		if (this.hasFinishined) return this.playtime
+		else return 0
+	}
 }
 
-function getPossibleCustomers(people, newItem) {
-	let result = []
+const game1 = new Game("World of Warcarft", 1000, false)
+const game2 = new Game("Jazz Jackrabbit", 5, true)
+const game3 = new Game("Super Mario", 120, true)
 
-	people.forEach(person => {
-		if (person.age >= 18) {
-			let possibleCustomer = false
+console.log(game1.getTotal())
+console.log(game2.getTotal())
+console.log(game3.getTotal())
 
-			person.latestPurchases.forEach(purchase => {
-				if (purchase.item === newItem.item && purchase.price > newItem.price) {
-					possibleCustomer = true
-				}
-			})
+//console.log(Game.getTotal())
 
-			if (possibleCustomer) {
-				result.push(person.name)
-			}
-		}
-	})
+class GameStatistics {
+	static getTotalHoursWasted(games /* array of Game instances */) {
+		let result = 0
 
-	if (result.length === 0) {
-		return null
-	} else {
+		games.forEach(game => result += game.getTotal())
+
 		return result
 	}
 }
 
-console.log(getPossibleCustomers(people, newItem))
+console.log(GameStatistics.getTotalHoursWasted([game1, game2, game3]))
 
-/* /* 
-
-FELADAT:
-Kapunk egy ember objectekből álló arrayt, amelyek így néznek ki:
-{
-	name: "Ricsi",
-	age: 29,
-	latestPurchases = [
-		{
-			item: "shoe",
-			price: 2999,
-		},
-		{
-			item: "computer",
-			price: 199999
-		},
-		{
-			item: "beer",
-			price: 349
-		}
-	] 
-}
-
-{
-	name: "Jakab",
-	age: 14,
-	latestPurchases: [
-		{
-			item: "book",
-			price: 1999
-		}, 
-		{
-			item: "ticket"
-			price: 999
-		}
-	]
-}
-
-az a feladatunk, hogy kiderítsük, hogy az új termék kiknek lenne jó ajánlat
-
-jó ajánlat a termék, ha:
- - a vásárló legalább 18 éves,
- - a legutóbbi vásárlásai között van:
-   - ugyanolyan item
-	 - olcsóbb az új termék mint az ugyanolyan item
-
-visszatérési érték: arrayben a lehetséges vásárlók neve, minden vásárló maximum 1x, vagy null, ha nincs lehetséges vásárló */
+/* const stats1 = new GameStatistics()
+console.log(stats1.getTotalHoursWasted()) */
